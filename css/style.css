@@ -1,0 +1,51 @@
+/* || RESET */
+* {
+    margin: 0;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+/* || VARIABLES */
+:root {
+    /* COLOR */
+    --BGCOLOR: #334;
+    --FGCOLOR: whitesmoke;
+    --SEATGREEN: hsl(83, 64%, 35%);
+}
+
+
+body {
+    font: 1.0rem 'Roboto', sans-serif;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    max-width: 600px;
+    background: center url("../img/hyperloop.jpg") #334;
+    background-size: cover;
+    background-blend-mode:overlay;
+    color: var(--FGCOLOR);
+
+}
+
+header, main, footer {
+    display: flex;
+    width: 600px;
+}
+main {
+  display: flex;
+  flex-direction: column;
+  flex: 1; 
+}
+img {
+    width: 600px;
+}
+
+.flex-grid-halfs {
+    width: 48%;
+}
+
+#text-window {
+    border: 2px rgb(147, 216, 17) solid;
+    background-color: rgb(26, 24, 8);
+}
