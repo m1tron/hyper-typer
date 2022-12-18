@@ -21,19 +21,26 @@ heos2200@student.miun.se
         <img src="img/hypertyper.png" alt="">
     </header>
     <main>
-        <label class="flex-grid-halfs" for="">Left menu</label>
-        <label for="dropmenu">test</label>
-        <select class="flex-grid-halfs" id="textSelect">
+        <label for="dropmenu">Choose text</label>
+        <select class="flex-grid-third" id="textSelect">
             <option value="">Select One …</option>
         </select>
-        <label for=""></label>
+        <section id="settings">
+            <h4>Settings</h4>
+            <input type="checkbox" id="case" name="case" value="CSS">
+            <label for="case">Ignore casing</label>
+            <input type="radio" id="case" name="lang" value="swedish">
+            <label for="swedish">Swedish</label>
+            <input type="radio" id="case" name="lang" value="english">
+            <label for="english">English</label>
+        </section>
         <div id="text-window">
             <h2 id="title"></h1>
             <h3 id="author"></h2>
             <p id="textbox"></p>
         </div>
         <p></p>
-        <input type="text" id="inputbox" disabled></input>
+        <input type="text" id="inputbox" class="flex-grid-third" disabled></input>
         <p id = "play">&#x25B6;</p>
         <section id="statistics">
             <h3>Statistics</h3>
@@ -57,16 +64,12 @@ heos2200@student.miun.se
         </section>
 
 
-
-
-        
-
-
-
-
     </main>
 
-    <footer></footer>
+    <footer>
+        Copyright © 2022 Henrik Oskarsson
+        <a href="mailto:jultomten@rovaniemi.fi">Contact me!</a>
+    </footer>
 </body>
 
 </html>

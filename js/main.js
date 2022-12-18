@@ -69,7 +69,7 @@ function supertyper() {
             html.inputbox.value = "";
             if (event.data == spans[index].innerText) {
                 console.log("MATCH");
-                spans[index].id = "";
+                spans[index].id = "pass";
             }
             else {
                 spans[index].id = "error";
@@ -77,16 +77,16 @@ function supertyper() {
             }
             index++;
             updateStats();
-            spans[index].id = "selected";
-
             if (index == spans.length) {
                 stopGame();
+                return;
             }
+            spans[index].id = "selected";
         });
     }
 
     function populateSelect() {
-        for (const key in texts) {
+        for (const key in texts) { 
             let y = document.createElement("option");
             y.innerHTML = key;
             html["textSelect"].appendChild(y);
@@ -115,13 +115,12 @@ function supertyper() {
 
     function updateStats(){
         let elapsed_minutes = (new Date().getTime() - time) / (1000 * 60);
-        //console.log(time);
-        //console.log(date.getTime());
         document.getElementById("gwpm").innerHTML = (index / (5*elapsed_minutes)).toFixed(0);
         document.getElementById("accuracy").innerHTML = parseFloat((index - errors)*100/index).toFixed(0)+"%";
         document.getElementById("nwpm").innerHTML = ((index - errors) / (5*elapsed_minutes)).toFixed(0);
         document.getElementById("errors").innerHTML = errors;
     }
+
 }
 
 
