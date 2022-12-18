@@ -1,11 +1,13 @@
 
 function supertyper() {
     let running = false;
-    const date = new Date();
     const texts = getXMLtexts();
     const html = getHtmlObjects();
     const spans = [];
-    const index = 0;
+    let time = 0;
+    let index = 0;
+    let errors = 0;
+
     addListeners();
     populateSelect();
 
@@ -60,12 +62,25 @@ function supertyper() {
                 html.inputbox.disabled = false;
                 html.inputbox.focus();
                 spanifyText();
+                startGame();
             }
         });
         html.inputbox.addEventListener('input', (event) => {
-            html.inputbox.innerText = "";
-            if(event.data == spans[index].innerText){
+            html.inputbox.value = "";
+            if (event.data == spans[index].innerText) {
                 console.log("MATCH");
+                spans[index].id = "";
+            }
+            else {
+                spans[index].id = "error";
+                errors++;
+            }
+            index++;
+            updateStats();
+            spans[index].id = "selected";
+
+            if (index == spans.length) {
+                stopGame();
             }
         });
     }
@@ -78,10 +93,13 @@ function supertyper() {
         }
     }
     function startGame() {
-        let time = date.getTime();
-
-
-        
+        time = new Date().getTime();
+        spans[index].id = "selected";
+    }
+    function stopGame() {
+        html.textSelect.disabled = false, running = false;
+        html.inputbox.disabled = true;
+        html.playBtn.innerHTML = "&#x25B6;";
     }
 
     function spanifyText() {
@@ -93,6 +111,16 @@ function supertyper() {
             spans.push(y);
             html["textbox"].appendChild(y);
         }
+    }
+
+    function updateStats(){
+        let elapsed_minutes = (new Date().getTime() - time) / (1000 * 60);
+        //console.log(time);
+        //console.log(date.getTime());
+        document.getElementById("gwpm").innerHTML = (index / (5*elapsed_minutes)).toFixed(0);
+        document.getElementById("accuracy").innerHTML = parseFloat((index - errors)*100/index).toFixed(0)+"%";
+        document.getElementById("nwpm").innerHTML = ((index - errors) / (5*elapsed_minutes)).toFixed(0);
+        document.getElementById("errors").innerHTML = errors;
     }
 }
 

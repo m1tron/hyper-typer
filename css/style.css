@@ -51,6 +51,13 @@ img {
     background-color: rgb(26, 24, 8);
     width: 600px;
 }
+#statistics {
+    border: 1px grey solid;
+    background-color: rgb(26, 24, 8);
+    width: 350px;
+    text-align: center;
+}
+
 
 h2, h3 {
     text-align: center;
@@ -63,4 +70,11 @@ span {
 #play{
     font-size: 3rem;
     width: fit-content;
+}
+
+#selected {
+    background-color: #5758be;
+}
+#error {
+    background-color: salmon;
 }
