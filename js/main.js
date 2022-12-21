@@ -1,4 +1,3 @@
-
 function supertyper() {
     let running = false;
     const texts = getXMLtexts();
@@ -66,16 +65,27 @@ function supertyper() {
             }
         });
         html.inputbox.addEventListener('input', (event) => {
-            html.inputbox.value = "";
-            if (event.data == spans[index].innerText) {
-                console.log("MATCH");
+            html.inputbox.value = " ";
+            console.log(event);
+            if (event.data == null && index > 0) {
+                spans[index].id = "";
+                index--;
+                if(spans[index].id == "error") {
+                    errors--;
+                }
+                spans[index].id = "selected";
+            }
+
+            else if (event.data == spans[index].innerText) {
                 spans[index].id = "pass";
+                index++;
             }
             else {
                 spans[index].id = "error";
                 errors++;
+                index++;
             }
-            index++;
+            
             updateStats();
             if (index == spans.length) {
                 stopGame();
