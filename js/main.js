@@ -11,7 +11,7 @@ function supertyper() {
     addListeners();
     populateSelect();
 
-    function getXMLtexts() {
+    function getXMLtexts() { // TODO: FIX THIS TO USE LISTENER AND BE ASYNC
         const req = new XMLHttpRequest();
         req.open("GET", "texts.xml", false);
         req.send();
@@ -34,6 +34,8 @@ function supertyper() {
             inputbox: document.getElementById("inputbox"),
             textSelect: document.getElementById("textSelect"),
             playBtn: document.getElementById("play"),
+            sweBtn: document.getElementById("swe"),
+            engBtn: document.getElementById("eng"),
             case: document.getElementById("case")
         }
     }
@@ -41,6 +43,9 @@ function supertyper() {
         html.textSelect.addEventListener('change', textSelected);
         html.playBtn.addEventListener('click', playListener);
         html.inputbox.addEventListener('input', charTyped);
+        html.sweBtn.addEventListener("click", radioBtnAction);
+        html.engBtn.addEventListener("click", radioBtnAction);
+
     }
 
     function textSelected(e) {
@@ -53,27 +58,30 @@ function supertyper() {
             html["author"].innerHTML = a;
         }
     }
-
+    function radioBtnAction(e) {
+        for (const opt of html.textSelect.getElementsByTagName("option")) {
+            if (opt.value == "noDisable") continue;     // Dont disable the first placeholder option
+            opt.disabled = (opt.lang == e.target.value) ? false : true; // disable(true) if text option != radioBtn selected value
+        }
+    }
     function playListener(e) {
         if (running) stopGame();
-        else if (html.textSelect.value != "") startGame();
+        else if (html.textSelect.value != "noDisable") startGame(); // Check that text is selected
     }
 
     function charTyped(e) {
-        html.inputbox.value = " ";
-        if (e.data == null) {
-            if (index == 0) return;
-            spans[index].id = "";
-            index--;
-            if (spans[index].id == "error") {
-                errors--;
-            }
-            spans[index].id = "selected";
+        html.inputbox.value = " ";      // Add a blankspace instead of the inputed value in textfield. This allows backspace action
+        if (e.data == null) {           // Nullcheck when using backspace to go out of bounds
+            if (index == 0) return;     // Abort to avoid using index < 0
+            spans[index].id = "";       // Remove highlighting before stepping back
+            index--;                    // Decrement index
+            if (spans[index].id == "error") errors--;   // Decrement errors if we land on a prevoius error
+            spans[index].id = "selected";               // Select the new index
         }
 
-        else if (e.data == spans[index].innerText) {
-            spans[index].id = "pass";
-            index++;
+        else if (e.data == spans[index].innerText) {    // If typed char is the same as selection
+            spans[index].id = "pass";                   // PASS
+            index++;                                    
         }
         else if (ignoreCasing && e.data.toLowerCase() == spans[index].innerText.toLowerCase()) {
             spans[index].id = "pass";
@@ -97,7 +105,8 @@ function supertyper() {
         for (const key in texts) {
             let y = document.createElement("option");
             y.innerHTML = key;
-            html["textSelect"].appendChild(y);
+            y.lang = texts[key].lang;
+            html.textSelect.appendChild(y);
         }
     }
     function startGame() {
@@ -124,13 +133,13 @@ function supertyper() {
     function resetVariables() {
         index = errors = 0;             // This is okay for simple datatypes
         time = new Date().getTime();    // Store current time
-        spans = [];                 
+        spans = [];
     }
 
     function spanifyText() {
         let text = html["textbox"].innerText;   // Grab text in textbox
         html["textbox"].innerHTML = "";         // Remove text from textbox
-        for (let letter of text) {                 
+        for (let letter of text) {
             let y = document.createElement("span"); // Create a span
             y.innerHTML = letter;                   // Add a letter to the span
             spans.push(y);                          // Add span to array
