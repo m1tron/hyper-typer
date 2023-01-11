@@ -32,7 +32,14 @@ body {
     background-size: cover;
     background-blend-mode:overlay;
     color: var(--FGCOLOR);
+    /* ; */
+    transition: all 2s 0.1s;
 
+}
+
+:hover {
+    transform: rotate(360deg);
+    transition: all 2s 0.1s;
 }
 
 header, main, footer {
@@ -68,7 +75,7 @@ img {
     background-color: rgb(26, 24, 8);
     width: 600px;
 }
-#statistics {
+#statistics, #canvas {
     border: 1px grey solid;
     background-color: rgb(26, 24, 8);
     width: 350px;
@@ -98,3 +105,5 @@ span {
 #pass {
     color: yellow;
 }
+
+

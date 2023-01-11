@@ -7,11 +7,14 @@ function supertyper() {
     let time = 0;
     let index = 0;
     let errors = 0;
+    let tLength = 0; //Storing this separatly as the innerHTML changes after spannify is called. Could perhaps be done with innertext hmm.
+    let gWPM = 0; // Breaking out this value to make it more easily accesible for canvas.
+    let canvas = {};
 
     addListeners();
     populateSelect();
 
-    function getXMLtexts() { // TODO: FIX THIS TO USE LISTENER AND BE ASYNC
+    function getXMLtexts() { // TODO: FIX THIS TO USE LISTENER IN ASYNC
         const req = new XMLHttpRequest();
         req.open("GET", "texts.xml", false);
         req.send();
@@ -36,7 +39,8 @@ function supertyper() {
             playBtn: document.getElementById("play"),
             sweBtn: document.getElementById("swe"),
             engBtn: document.getElementById("eng"),
-            case: document.getElementById("case")
+            case: document.getElementById("case"),
+            canvas: document.getElementById("canvas")
         }
     }
     function addListeners() {
@@ -45,7 +49,6 @@ function supertyper() {
         html.inputbox.addEventListener('input', charTyped);
         html.sweBtn.addEventListener("click", radioBtnAction);
         html.engBtn.addEventListener("click", radioBtnAction);
-
     }
 
     function textSelected(e) {
@@ -54,7 +57,8 @@ function supertyper() {
             const t = texts[e.target.value].text;
             html["textbox"].innerHTML = t;
             let a = texts[e.target.value].author;
-            a += " (" + t.split(" ").length + " words, " + t.length + " chars)";
+            tLength = t.length;
+            a += " (" + t.split(" ").length + " words, " + tLength + " chars)";
             html["author"].innerHTML = a;
         }
     }
@@ -94,6 +98,7 @@ function supertyper() {
         }
 
         updateStats();
+        draw();
         if (index == spans.length) {
             stopGame();
             return;
@@ -116,7 +121,7 @@ function supertyper() {
         html.case.disabled = true;
         html.inputbox.disabled = false;
         html.inputbox.focus();
-
+        canvas = initCanvas();
         resetVariables();
         spanifyText();
         spans[index].id = "selected";
@@ -149,14 +154,35 @@ function supertyper() {
 
     function updateStats() {
         let elapsed_minutes = (new Date().getTime() - time) / (1000 * 60);
-        document.getElementById("gwpm").innerHTML = (index / (5 * elapsed_minutes)).toFixed(0);
+        gWPM = (index / (5 * elapsed_minutes)).toFixed(0);
+        document.getElementById("gwpm").innerHTML = gWPM;
         document.getElementById("accuracy").innerHTML = parseFloat((index - errors) * 100 / index).toFixed(0) + "%";
         document.getElementById("nwpm").innerHTML = ((index - errors) / (5 * elapsed_minutes)).toFixed(0);
         document.getElementById("errors").innerHTML = errors;
-        console.log("index: " + index + "    errors: " + errors);
-        console.log(spans[index]);
     }
 
+    function draw() {
+        console.log("drawing to X: " + canvas.step*index) // + " Y: " + 150-gWPM);
+        canvas.ctx.lineTo(canvas.step*index, 150-gWPM);
+        canvas.ctx.stroke();
+    }
+
+    function initCanvas(){
+        let tempCtx = html.canvas.getContext("2d");
+        tempCtx.clearRect(0, 0, 350, 150);
+        tempCtx.beginPath();
+        tempCtx.strokeStyle = "yellow";
+        tempCtx.moveTo(0, 150);
+
+        return {
+            ctx: tempCtx,
+            startX: 0,
+            startY: 150,
+            step: 300/tLength
+        }
+    }
+
+    
 }
 
 
