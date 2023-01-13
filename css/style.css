@@ -3,7 +3,6 @@
     margin: 0;
     padding: 0.7rem;
     box-sizing: border-box;
-    opacity: 99%;
 }
 
 /* || VARIABLES */
@@ -12,17 +11,26 @@
     --BGCOLOR: #334;
     --FGCOLOR: whitesmoke;
     --SEATGREEN: hsl(83, 64%, 35%);
+
 }
 
-/* @font-face {
-    font-family: "monospace";
-    src: local(""),
-      url("trickster-COLRv1.otf") format("opentype") tech(color-COLRv1), url("trickster-outline.otf")
-        format("opentype"), url("trickster-outline.woff") format("woff");
-  } */
+/*  FONT-FACES   */
+@font-face {
+    font-family: "camingocode";
+    src: url('../font/CamingoCode-Regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "camingocode";
+    src: url("../font/CamingoCode-CaminRegulargoCode.ttf") format("ttf");
+    font-weight: bold;
+    font-style: normal;
+}
 
 body {
-    font: 1.0rem 'Roboto Mono', monospace;
+    font-family: "camingocode";
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -30,19 +38,13 @@ body {
     max-width: 600px;
     background: center url("../img/hyperloop.jpg") #334;
     background-size: cover;
-    background-blend-mode:overlay;
+    background-blend-mode: overlay;
     color: var(--FGCOLOR);
-    /* ; */
-    transition: all 2s 0.1s;
-
 }
 
-:hover {
-    transform: rotate(360deg);
-    transition: all 2s 0.1s;
-}
-
-header, main, footer {
+header,
+main,
+footer {
     display: flex;
     width: 600px;
 }
@@ -51,11 +53,13 @@ footer {
     border-top: 2px gray solid;
 }
 
-main, footer {
-  flex-direction: column;
-  flex: 1; 
-  align-items: center;
+main,
+footer {
+    flex-direction: column;
+    flex: 1;
+    align-items: center;
 }
+
 img {
     width: 600px;
 }
@@ -75,35 +79,88 @@ img {
     background-color: rgb(26, 24, 8);
     width: 600px;
 }
-#statistics, #canvas {
+
+#statistics,
+#canvas {
     border: 1px grey solid;
     background-color: rgb(26, 24, 8);
     width: 350px;
     text-align: center;
 }
 
+#canvas {
+    height: 100px;
+}
 
-h2, h3 {
+
+h2,
+h3 {
     text-align: center;
 }
 
 span {
-    padding:0;
+    padding: 0;
 }
 
-#play{
+#play {
     font-size: 3rem;
-    width: fit-content;
+    padding-bottom: 10px;
 }
 
 #selected {
     background-color: #5758be;
 }
+
 #error {
     background-color: salmon;
 }
+
 #pass {
     color: yellow;
 }
 
+.animate {
+    animation-name: mymove;
+    animation-duration: 5s;
+    animation-timing-function: ease-in-out;
+    animation-delay: 1s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 
+}
+
+.pop,
+#pass {
+    animation-name: pop;
+    animation-duration: 0.3s;
+    animation-timing-function: linear;
+    animation-delay: 0;
+    animation-iteration-count: 1;
+}
+
+@keyframes mymove {
+    0% {
+        transform: translateX(-6px);
+        opacity: 0.1;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(6px);
+        opacity: 0.1;
+    }
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(100%);
+    }
+
+    100% {
+        transform: scale(500%);
+        opacity: 0;
+    }
+}
