@@ -24,7 +24,7 @@
 
 @font-face {
     font-family: "camingocode";
-    src: url("../font/CamingoCode-CaminRegulargoCode.ttf") format("ttf");
+    src: url('../font/CamingoCode-Bold-webfont.woff') format('woff');
     font-weight: bold;
     font-style: normal;
 }
@@ -42,19 +42,15 @@ body {
     color: var(--FGCOLOR);
 }
 
+footer {
+    border-top: 2px gray solid;
+}
+
 header,
 main,
 footer {
     display: flex;
     width: 600px;
-}
-
-footer {
-    border-top: 2px gray solid;
-}
-
-main,
-footer {
     flex-direction: column;
     flex: 1;
     align-items: center;
@@ -89,7 +85,7 @@ img {
 }
 
 #canvas {
-    height: 200px;
+    height: 100px;
 }
 
 
@@ -134,7 +130,7 @@ span {
     animation-name: pop;
     animation-duration: 0.3s;
     animation-timing-function: linear;
-    animation-delay: 0;
+    animation-delay: 0s;
     animation-iteration-count: 1;
 }
 
@@ -156,11 +152,11 @@ span {
 
 @keyframes pop {
     0% {
-        transform: scale(100%);
+        transform: scale(1);
     }
 
     100% {
-        transform: scale(500%);
+        transform: scale(5), translateY(3px);
         opacity: 0;
     }
 }

@@ -13,6 +13,7 @@ heos2200@student.miun.se
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supertyper2000</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     <script src="js/main.js" defer></script>
 </head>
 
@@ -21,46 +22,44 @@ heos2200@student.miun.se
         <img class="animate" src="img/hypertyper.png" alt="">
     </header>
     <main>
-        <label for="dropmenu">Choose text</label>
+        <label for="textSelect">Choose text</label>
         <select class="flex-grid-third" id="textSelect">
             <option value="noDisable">Select One …</option>
         </select>
         <section id="settings">
             <h4>Settings</h4>
-            <input type="checkbox" id="case" name="case" value="">
+            <input type="checkbox" id="case" name="case" value="CSS">
             <label for="case">Ignore casing</label>
             <input type="radio" id="swe" name="lang" value="swedish">
-            <label for="swedish">Swedish</label>
+            <label for="swe">Swedish</label>
             <input type="radio" id="eng" name="lang" value="english">
-            <label for="english">English</label>
+            <label for="eng">English</label>
         </section>
         <div id="text-window">
-            <h2 id="title">
-                </h1>
-                <h3 id="author">
-            </h2>
+            <h2 id="title"></h2>
+            <h3 id="author"></h3>
             <p id="textbox"></p>
         </div>
         <p></p>
-        <input type="text" id="inputbox" class="flex-grid-third" disabled></input>
+        <input type="text" id="inputbox" class="flex-grid-third" disabled>
         <p id="play">&#x25B6;</p>
         <section id="statistics">
             <h3>Statistics</h3>
 
-            <label for="gwpm" class="stat_label">Gross WPM:
+            <label class="stat_label">Gross WPM:
                 <span id="gwpm" class="stat_span"></span>
             </label>
 
-            <label for="accuracy" class="stat_label">Accuracy:
+            <label class="stat_label">Accuracy:
                 <span id="accuracy" class="stat_span"></span>
             </label>
             <br>
 
-            <label for="npwm" class="stat_label">Net WPM:
+            <label class="stat_label">Net WPM:
                 <span id="nwpm" class="stat_span"></span>
             </label>
 
-            <label for="errors" class="stat_label">Errors:
+            <label class="stat_label">Errors:
                 <span id="errors" class="stat_span"></span>
             </label>
         </section>

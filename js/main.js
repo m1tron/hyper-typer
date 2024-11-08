@@ -1,10 +1,12 @@
+"use strict";
 /** 
  * Main function 
  * Holds variables and initiates states
 */
-function supertyper() {
+async function supertyper() {
     let running = false;
-    const texts = getXMLtexts();
+    const texts = await getXMLtexts();
+    console.log(texts);
     const html = getHtmlObjects();
     let ignoreCasing = false;
     let spans = [];
@@ -14,22 +16,25 @@ function supertyper() {
     let tLength = 0; //Storing this separatly as the innerHTML changes after spannify is called. Could perhaps be done with innertext hmm.
     let gWPM = 0; // Breaking out this value to make it more easily accesible for canvas.
     let canvas = {};
-
-
-
-    addListeners();
     populateSelect();
+    addListeners();
+
     /** Fetches the texts from the XML document an formats them into an object variable */
-    function getXMLtexts() { // TODO: FIX THIS TO USE LISTENER IN ASYNC
-        const req = new XMLHttpRequest();           // New XML request
-        req.open("GET", "texts.xml", false);        // Set XML request paramaters
-        req.send();                                 // Send request
-        const res = req.responseXML;                // Extract DOM representation of XML
+    async function getXMLtexts() {
+        let url = "texts.xml"
+        let xml = await fetch(url)
+        .then(res => res.text())
+         .then(data => {
+            const parser = new DOMParser();
+            const parsed_xml = parser.parseFromString(data, "application/xml");
+            return parsed_xml
+        }) 
+
         const temp = {};
-        const title = res.getElementsByTagName("title");        // Extract fields from DOM
-        const author = res.getElementsByTagName("author");
-        const text = res.getElementsByTagName("text");
-        const language = res.getElementsByTagName("language");
+        const title = xml.getElementsByTagName("title");        // Extract fields from DOM
+        const author = xml.getElementsByTagName("author");
+        const text = xml.getElementsByTagName("text");
+        const language = xml.getElementsByTagName("language");
         for (let i = 0; i < title.length; i++) {    // Add all fields into an object using the title as key
             temp[title[i].innerHTML] = { author: author[i].innerHTML, text: text[i].innerHTML, lang: language[i].innerHTML };
         }
@@ -60,7 +65,7 @@ function supertyper() {
     }
 
     /** Listener function for dropdown menu text select
-     * Moves text into window */
+     * Moves selected text into html elements */
     function textSelected(e) {
         if (e.target.value != "") {                     // Nullcheck to avoid selecting default value "choose text.."
             html["title"].innerHTML = e.target.value;   // Set title in textwindow
@@ -91,8 +96,6 @@ function supertyper() {
      * Includes logic to determine correct or error
      * Triggers coloring */
     function charTyped(e) {
-        let audio = new Audio('../sound/click.mp3');
-        audio.play();
         html.inputbox.value = " ";      // Add a blankspace instead of the inputed value in textfield. This allows backspace action
         if (e.data == null) {           // Nullcheck when using backspace to go out of bounds
             if (index == 0) return;     // Abort to avoid using index < 0
@@ -114,6 +117,8 @@ function supertyper() {
             spans[index].id = "error";
             errors++;
             index++;
+            let audio = new Audio('sound/click.mp3');
+            audio.play();
         }
 
         updateStats();
@@ -214,7 +219,7 @@ function supertyper() {
             ctx: tempCtx,
             startX: 0,
             startY: 150,
-            step: 300 / tLength
+            step: 300 / html.textbox.innerHTML.length
         }
     }
 
@@ -227,4 +232,10 @@ function supertyper() {
 
 }
 
+
 supertyper();
+
+
+
+
+
