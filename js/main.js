@@ -227,10 +227,4 @@ function supertyper() {
 
 }
 
-
 supertyper();
-
-
-
-
-
